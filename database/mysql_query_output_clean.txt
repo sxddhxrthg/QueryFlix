@@ -1,0 +1,121 @@
+mysql: [Warning] Using a password on the command line interface can be insecure.
+type	total_titles	pct_of_catalog
+Movie	16000	50.00
+TV Show	16000	50.00
+genre	title_count
+Drama	14776
+Comedy	9110
+Animation	4070
+Thriller	3769
+Action	3239
+Crime	3203
+Family	3014
+Mystery	2576
+Romance	2571
+Horror	2425
+country	title_count
+United States of America	10956
+Japan	2871
+United Kingdom	2609
+China	2399
+South Korea	2174
+France	2108
+Canada	1716
+Germany	1160
+India	912
+Spain	822
+actor	appearances
+NULL	2130
+Min Do-yoon	111
+Kana Hanazawa	97
+Yuki Kaji	70
+Grey DeLisle	65
+Yuichi Nakamura	63
+Natsuki Hanae	63
+Takahiro Sakurai	63
+Yoko Hikasa	62
+Saori Hayami	59
+year_added	titles_added
+2010	2000
+2011	2000
+2012	2000
+2013	2000
+2014	2000
+2015	2000
+2016	2000
+2017	2000
+2018	2000
+2019	2000
+2020	2000
+2021	2000
+2022	2000
+2023	2000
+2024	2000
+2025	2000
+type	recent_titles
+Movie	5002
+TV Show	5001
+title	type	vote_average	vote_count
+Hazbin Hotel	TV Show	8.80	1229
+Arcane	TV Show	8.80	4932
+The Owl House	TV Show	8.70	1643
+Attack on Titan	TV Show	8.70	6603
+Anne with an E	TV Show	8.70	4713
+Demon Slayer: Kimetsu no Yaiba	TV Show	8.70	6585
+Better Call Saul	TV Show	8.70	5475
+Rick and Morty	TV Show	8.70	9992
+Chernobyl	TV Show	8.69	6636
+Kamisama Kiss	TV Show	8.65	928
+type	title	vote_average
+Movie	Interstellar	8.50
+Movie	Parasite	8.50
+Movie	Your Name.	8.50
+TV Show	Hazbin Hotel	8.80
+TV Show	Arcane	8.80
+type	titles	avg_rating
+Movie	528	5.97
+TV Show	384	4.38
+type	avg_rating	avg_popularity	avg_vote_count
+Movie	5.96	20.38	719
+TV Show	5.42	64.85	107
+production_type	title_count
+Single country	24372
+Co-production (2+ countries)	5365
+content_flag	title_count
+Other	19238
+Crime / Violence themed	5533
+Romance themed	3388
+Comedy themed	501
+title	release_year	budget	revenue	profit	revenue_multiple
+Avengers: Endgame	2019	356000000	2799439100	2443439100	7.86
+Ne Zha 2	2025	80000000	1990000000	1910000000	24.88
+Avatar: The Way of Water	2022	460000000	2320250281	1860250281	5.04
+Star Wars: The Force Awakens	2015	245000000	2068223624	1823223624	8.44
+Avengers: Infinity War	2018	300000000	2052415039	1752415039	6.84
+Spider-Man: No Way Home	2021	200000000	1921847111	1721847111	9.61
+Jurassic World	2015	150000000	1671537444	1521537444	11.14
+Inside Out 2	2024	200000000	1698863816	1498863816	8.49
+The Lion King	2019	260000000	1662020819	1402020819	6.39
+Furious 7	2015	190000000	1515400000	1325400000	7.98
+director	titles_directed	avg_rating
+Tyler Perry	20	6.15
+Don Michael Perez	16	1.66
+Gil Tejada Jr.	16	0.50
+Roel Rein	15	5.53
+Steven Soderbergh	15	5.82
+Sean McNamara	15	6.28
+Sion Sono	14	6.43
+Choi Woo-seong	14	4.51
+Richard Kim	13	3.59
+Choi Jin-chul	13	5.31
+release_year	title	type	popularity
+2025	The Gorge	Movie	3876.006
+2024	Volta por Cima	TV Show	2885.720
+2023	Die Landarztpraxis	TV Show	1898.550
+2022	The Jennifer Hudson Show	TV Show	2066.124
+2021	La Casa de los Famosos	TV Show	2126.920
+2020	Lang Leve de Liefde	TV Show	1524.235
+2019	GH do	TV Show	2379.884
+2018	Chronicles of the Sun	TV Show	2987.485
+2017	Tomorrow Is Ours	TV Show	2028.110
+2016	My Little Old Boy	TV Show	738.033
