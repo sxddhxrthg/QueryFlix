@@ -8,6 +8,7 @@ import titlesRouter from "./routes/titles";
 import dimensionsRouter from "./routes/dimensions";
 import queriesRouter from "./routes/queries";
 import databaseRouter from "./routes/database";
+import personalizationRouter from "./routes/personalization";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use("/api/titles", titlesRouter);
 app.use("/api", dimensionsRouter); // exposes /api/genres, /api/countries, /api/cast, /api/yearly-trends
 app.use("/api/queries", queriesRouter);
 app.use("/api/database", databaseRouter);
+app.use("/api/personalization", personalizationRouter);
 
 // Structured 404
 app.use((req, res) => {

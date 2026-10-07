@@ -1,0 +1,76 @@
++----+----------------------------------------------+----------+--------+--------+
+| #  | check_name                                   | expected | actual | status |
++----+----------------------------------------------+----------+--------+--------+
+|  1 | Netflix rows (original table)                | 32000    |  32000 | PASS   |
+|  2 | Netflix movies                               | 16000    |  16000 | PASS   |
+|  3 | Netflix TV shows                             | 16000    |  16000 | PASS   |
+|  4 | Canonical titles = Netflix rows              | 32000    |  32000 | PASS   |
+|  5 | Duplicate canonical title_id                 | 0        |      0 | PASS   |
+|  6 | Titles with no netflix parent                | 0        |      0 | PASS   |
+|  7 | MovieLens users                              | 610      |    610 | PASS   |
+|  8 | MovieLens movies                             | 9742     |   9742 | PASS   |
+|  9 | MovieLens ratings                            | 100836   | 100836 | PASS   |
+| 10 | MovieLens tags                               | 3683     |   3683 | PASS   |
+| 11 | Mapping rows = MovieLens movies              | 9742     |   9742 | PASS   |
+| 12 | Mapped MovieLens movies                      | info     |   1730 | INFO   |
+| 13 | Unmatched MovieLens movies (kept)            | info     |   8012 | INFO   |
+| 14 | Ambiguous MovieLens movies (kept)            | info     |      0 | INFO   |
+| 15 | Mapped rows pointing to a non-Movie title    | 0        |      0 | PASS   |
+| 16 | Netflix titles mapped by >1 MovieLens movie  | info     |      0 | INFO   |
+| 17 | Title-rule matches confirmed by links.csv    | info     |   1665 | INFO   |
+| 18 | Accepted matches contradicted by links.csv   | 0        |      0 | PASS   |
+| 19 | Orphan ratings (user)                        | 0        |      0 | PASS   |
+| 20 | Orphan ratings (movie)                       | 0        |      0 | PASS   |
+| 21 | Orphan mapping -> titles                     | 0        |      0 | PASS   |
+| 22 | Orphan title_genres                          | 0        |      0 | PASS   |
+| 23 | Orphan title_credits                         | 0        |      0 | PASS   |
+| 24 | Ratings outside 0.5-5.0                      | 0        |      0 | PASS   |
+| 25 | Titles with NULL director (kept)             | info     |  11097 | INFO   |
+| 26 | Titles with NULL cast (kept)                 | info     |   1361 | INFO   |
+| 27 | Titles with NULL country (kept)              | info     |   2263 | INFO   |
+| 28 | Titles with no genre (kept)                  | info     |   1083 | INFO   |
+| 29 | Titles with NULL date_added                  | info     |      0 | INFO   |
+| 30 | MovieLens movies with no ratings             | info     |     18 | INFO   |
+| 31 | Duplicate source_id (Movie vs TV namespace)  | info     |    406 | INFO   |
+| 32 | Duplicate source_id within same type         | info     |      9 | INFO   |
+| 33 | Duplicate (title, year, type) in Netflix     | info     |     82 | INFO   |
+| 34 | Ratings that reach a Netflix title           | info     |   9168 | INFO   |
+| 35 | Netflix movies with runtime (TMDB)           | info     |   5811 | INFO   |
+| 36 | Netflix TV shows with seasons/episode length | info     |      0 | INFO   |
+| 37 | MovieLens movies with runtime (TMDB)         | info     |   9518 | INFO   |
+| 38 | Ratings whose movie has a runtime            | info     | 100278 | INFO   |
+| 39 | Netflix title rows changed by enrichment     | 0        |      0 | PASS   |
+| 40 | Runtimes from bundled 2017 snapshot          | info     |  13700 | INFO   |
+| 41 | Runtimes from live TMDB API fetch            | info     |      0 | INFO   |
+| 42 | Users with a duration profile                | info     |    610 | INFO   |
++----+----------------------------------------------+----------+--------+--------+
++--------------+-------------------------------------------------------+------------------+-------+
+| match_status | match_method                                          | movielens_movies | pct   |
++--------------+-------------------------------------------------------+------------------+-------+
+| EXACT        | exact title + same year                               |             1520 | 15.60 |
+| EXACT        | exact title (a.k.a.) + same year                      |                5 |  0.05 |
+| EXACT        | exact title + same year + tmdb tie-break              |                2 |  0.02 |
+| NORMALIZED   | normalised title + same year                          |               41 |  0.42 |
+| YEAR_MATCH   | normalised title + year +-1                           |               96 |  0.99 |
+| YEAR_MATCH   | normalised title + year +-1 + tmdb tie-break          |                1 |  0.01 |
+| LINK_ID      | MovieLens links.csv tmdbId = Netflix source_id        |               63 |  0.65 |
+| LINK_ID      | tmdb link overrides exact title match                 |                2 |  0.02 |
+| UNMATCHED    | released before Netflix catalog window (2010-2025)    |             7516 | 77.15 |
+| UNMATCHED    | no Netflix title with same name/year                  |              483 |  4.96 |
+| UNMATCHED    | no year in MovieLens title, no link                   |                7 |  0.07 |
+| UNMATCHED    | rejected exact match: tmdb link points elsewhere      |                3 |  0.03 |
+| UNMATCHED    | rejected year_match match: tmdb link points elsewhere |                2 |  0.02 |
+| UNMATCHED    | rejected normalized match: tmdb link points elsewhere |                1 |  0.01 |
++--------------+-------------------------------------------------------+------------------+-------+
++-----------------+----------------------+----------------+-----------------------+--------------------------+-----------------------+------------------+
+| linkable_movies | title_rule_decisions | vetoed_by_link | correct_title_matches | title_rule_precision_pct | title_rule_recall_pct | final_recall_pct |
++-----------------+----------------------+----------------+-----------------------+--------------------------+-----------------------+------------------+
+|            1730 |                 1673 |              8 |                  1665 |                    99.52 |                 96.24 |           100.00 |
++-----------------+----------------------+----------------+-----------------------+--------------------------+-----------------------+------------------+
++---------------------------------------------+------------------+--------+------------+
+| movielens_release_window                    | movielens_movies | mapped | pct_mapped |
++---------------------------------------------+------------------+--------+------------+
+| before 2010 (outside Netflix catalog years) |             7798 |     12 |        0.2 |
+| 2010 or later                               |             1931 |   1712 |       88.7 |
+| no year                                     |               13 |      6 |       46.2 |
++---------------------------------------------+------------------+--------+------------+

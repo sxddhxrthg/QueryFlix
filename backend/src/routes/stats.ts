@@ -36,12 +36,13 @@ router.get("/", async (_req, res) => {
     );
 
     res.json({
-      totalTitles: totals.total_titles,
-      movies: totals.movies,
-      tvShows: totals.tv_shows,
-      avgRating: totals.avg_rating,
-      genreCount: genreCount.genre_count,
-      countryCount: countryCount.country_count,
+      // mysql2 returns SUM()/DECIMAL results as strings; the charts need numbers
+      totalTitles: Number(totals.total_titles),
+      movies: Number(totals.movies),
+      tvShows: Number(totals.tv_shows),
+      avgRating: Number(totals.avg_rating),
+      genreCount: Number(genreCount.genre_count),
+      countryCount: Number(countryCount.country_count),
     });
   } catch (err) {
     console.error(err);

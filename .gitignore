@@ -27,3 +27,10 @@ pnpm-debug.log*
 # Temporary files
 *.tmp
 *.temp
+
+# temporary password file used by import scripts
+database/.mysql_import.cnf
+
+# Python cache
+__pycache__/
+*.pyc

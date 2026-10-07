@@ -15,7 +15,10 @@ CREATE DATABASE IF NOT EXISTS queryflix
 
 USE queryflix;
 
+-- derived tables (unified_schema.sql) reference netflix; disable FK checks for the drop
+SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS netflix;
+SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE netflix (
     show_id         INT AUTO_INCREMENT PRIMARY KEY,   -- surrogate key (see data-quality note)

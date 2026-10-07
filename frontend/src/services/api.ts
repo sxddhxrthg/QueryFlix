@@ -42,6 +42,8 @@ export interface Stats {
 
 export interface QuerySummary {
   id: number;
+  layer?: "netflix" | "movielens";
+  usesUser?: boolean;
   slug: string;
   title: string;
   businessQuestion: string;
@@ -56,6 +58,7 @@ export interface QueryDetail extends QuerySummary {
 export interface QueryResult {
   id: number;
   title: string;
+  userId?: number;
   rowCount: number;
   executionTimeMs: number;
   results: Record<string, unknown>[];
@@ -92,6 +95,11 @@ export interface TitleDetail {
   vote_average: string | null;
   budget: number | null;
   revenue: number | null;
+  // duration enrichment (TMDB); null until runtimes are fetched
+  runtime_minutes?: number | null;
+  seasons?: number | null;
+  episodes?: number | null;
+  episode_runtime_minutes?: number | null;
 }
 
 export interface TableInfo {
@@ -109,6 +117,91 @@ export interface ColumnInfo {
   Extra: string;
 }
 
+export interface MappingSummary {
+  totals: {
+    users: number;
+    movielens_movies: number;
+    ratings: number;
+    mapped_movies: number;
+    ratings_on_netflix_titles: number;
+    runtimes_loaded: number;
+  };
+  byStatus: {
+    match_status: string;
+    movielens_movies: number;
+    confirmed_by_links_csv: string | null;
+    avg_confidence: string;
+  }[];
+  examples: Record<string, unknown>[];
+}
+
+export interface GenreAffinity {
+  genre_name: string;
+  n_rated: number;
+  avg_rating: string;
+  vs_user_mean: string;
+  volume: string;
+  liking: string;
+  affinity: string;
+  preference_rank: number;
+}
+
+export interface DurationAffinity {
+  duration_band: string;
+  n_rated: number;
+  avg_minutes: number;
+  avg_rating: string;
+  vs_user_mean: string;
+  volume: string;
+  liking: string;
+  affinity: string;
+  preference_rank: number;
+}
+
+export interface Recommendation {
+  rec_rank: number;
+  title: string;
+  release_year: number;
+  runtime_minutes: number | null;
+  duration_match: string;
+  evidence: string;
+  recommendation_score: number | string;
+  genre_match: string;
+  collaborative: string;
+  quality: string;
+  popularity: string;
+  similar_users_who_rated: number;
+  because_you_like: string | null;
+}
+
+export interface DurationPick {
+  genre_name: string;
+  rank_in_genre: number;
+  title: string;
+  release_year: number;
+  runtime_minutes: number;
+  duration_band: string;
+  vote_average: string;
+}
+
+export interface PersonalizationResult {
+  userId: number;
+  weights: { genre: number; collaborative: number; duration: number; quality: number; popularity: number };
+  executionTimeMs: number;
+  profile: GenreAffinity[];
+  durationProfile: DurationAffinity[];
+  durationAvailable: boolean;
+  recommendations: Recommendation[];
+  durationPicks: DurationPick[];
+}
+
+export interface DemoUser {
+  user_id: number;
+  n_ratings: number;
+  n_ratings_on_netflix_titles: string;
+  mean_rating: string;
+}
+
 export const api = {
   health: () => request<{ api: string; mysqlConnected: boolean; database: string }>("/health"),
   stats: () => request<Stats>("/stats"),
@@ -118,7 +211,11 @@ export const api = {
   yearlyTrends: () => request<{ year_added: number; titles_added: number }[]>("/yearly-trends"),
   queries: () => request<QuerySummary[]>("/queries"),
   queryDetail: (id: number) => request<QueryDetail>(`/queries/${id}`),
-  queryResults: (id: number) => request<QueryResult>(`/queries/${id}/results`),
+  queryResults: (id: number, userId?: number) =>
+    request<QueryResult>(`/queries/${id}/results${userId ? `?userId=${userId}` : ""}`),
+  mapping: () => request<MappingSummary>("/personalization/mapping"),
+  demoUsers: () => request<DemoUser[]>("/personalization/users"),
+  personalization: (userId: number) => request<PersonalizationResult>(`/personalization/${userId}`),
   searchTitles: (params: Record<string, string>) => {
     const qs = new URLSearchParams(params).toString();
     return request<{ total: number; page: number; limit: number; results: TitleSummary[] }>(

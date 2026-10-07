@@ -1,0 +1,6 @@
+# Keep data and scripts byte-exact on every OS.
+# (Git on Windows would otherwise add \r to CSV lines and break LOAD DATA.)
+*.csv   -text
+*.sh    text eol=lf
+*.sql   text eol=lf
+*.bat   text eol=crlf

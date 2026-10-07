@@ -17,12 +17,12 @@ export default function TitleDetail() {
   }, [id]);
 
   if (error) return <div className="error-box">{error}</div>;
-  if (!title) return <div className="loading-dim">Loading\u2026</div>;
+  if (!title) return <div className="loading-dim">Loading…</div>;
 
   return (
     <div>
       <Link to="/search" className="back-link">
-        \u2190 Back to search
+        ← Back to search
       </Link>
       <div className="page-header">
         <h1 className="page-title">{title.title}</h1>
@@ -44,6 +44,24 @@ export default function TitleDetail() {
         <div className="card">
           <h3 className="section-title">Details</h3>
           <Kv label="Release year" value={title.release_year} />
+          {title.type === "Movie" ? (
+            <Kv label="Duration" value={title.runtime_minutes ? `${title.runtime_minutes} min` : null} />
+          ) : (
+            <Kv
+              label="Duration"
+              value={
+                title.seasons || title.episode_runtime_minutes
+                  ? [
+                      title.seasons && `${title.seasons} season${title.seasons > 1 ? "s" : ""}`,
+                      title.episodes && `${title.episodes} episodes`,
+                      title.episode_runtime_minutes && `~${title.episode_runtime_minutes} min/episode`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")
+                  : null
+              }
+            />
+          )}
           <Kv label="Date added" value={title.date_added?.slice(0, 10)} />
           <Kv label="Genres" value={title.genres} />
           <Kv label="Country" value={title.country} />
@@ -63,7 +81,7 @@ function Kv({ label, value }: { label: string; value: unknown }) {
   return (
     <div className="kv-row">
       <span className="kv-label">{label}</span>
-      <span>{value != null && value !== "" ? String(value) : "\u2014"}</span>
+      <span>{value != null && value !== "" ? String(value) : "—"}</span>
     </div>
   );
 }

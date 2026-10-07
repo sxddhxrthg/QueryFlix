@@ -1,5 +1,9 @@
+import { MOVIELENS_QUERIES } from "./registry_movielens";
+
 export interface QueryDef {
   id: number;
+  layer?: "netflix" | "movielens";   // netflix = Q1-Q15, movielens = Q16-Q30
+  usesUser?: boolean;                // true -> route runs SET @user_id = ? first
   slug: string;
   title: string;
   businessQuestion: string;
@@ -11,7 +15,7 @@ export interface QueryDef {
 // All 15 queries, migrated from the project's PostgreSQL implementation to
 // MySQL 8.0+/9.x compatible SQL. See database/queries.sql for the
 // standalone, commented version with full translation notes.
-export const QUERIES: QueryDef[] = [
+const NETFLIX_QUERIES: QueryDef[] = [
   {
     id: 1,
     slug: "content-distribution",
@@ -262,6 +266,11 @@ FROM (
 WHERE rnk = 1
 ORDER BY release_year DESC`,
   },
+];
+
+export const QUERIES: QueryDef[] = [
+  ...NETFLIX_QUERIES.map((q) => ({ ...q, layer: "netflix" as const, usesUser: false })),
+  ...MOVIELENS_QUERIES,
 ];
 
 export function getQueryById(id: number): QueryDef | undefined {

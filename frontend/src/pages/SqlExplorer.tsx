@@ -43,7 +43,7 @@ export default function SqlExplorer() {
       <div className="page-header">
         <h1 className="page-title">Query Execution</h1>
         <p className="page-subtitle">
-          Read-only: only the 15 predefined SELECT queries below can be run from here.
+          Read-only: only the 36 predefined SELECT queries below can be run from here.
         </p>
       </div>
 
@@ -68,13 +68,13 @@ export default function SqlExplorer() {
             </div>
           )}
           <button className="btn" style={{ marginTop: 16 }} onClick={execute} disabled={running}>
-            {running ? "Executing\u2026" : "Execute Query"}
+            {running ? "Executing…" : "Execute Query"}
           </button>
         </div>
 
         <div className="card">
           <h3 className="section-title">SQL Query</h3>
-          {detail ? <pre className="sql-block">{detail.sql}</pre> : <div className="loading-dim">Loading\u2026</div>}
+          {detail ? <pre className="sql-block">{detail.sql}</pre> : <div className="loading-dim">Loading…</div>}
         </div>
       </div>
 
@@ -112,7 +112,7 @@ function ResultTable({ rows }: { rows: Record<string, unknown>[] }) {
           {rows.map((row, i) => (
             <tr key={i}>
               {cols.map((c) => (
-                <td key={c}>{String(row[c] ?? "\u2014")}</td>
+                <td key={c}>{String(row[c] ?? "—")}</td>
               ))}
             </tr>
           ))}

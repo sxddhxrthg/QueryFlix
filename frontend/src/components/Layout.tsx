@@ -2,7 +2,9 @@ import { NavLink, Outlet } from "react-router-dom";
 
 const navItems = [
   { to: "/", label: "Dashboard", end: true },
-  { to: "/queries", label: "15 Business Questions" },
+  { to: "/queries", label: "36 Business Questions" },
+  { to: "/mapping", label: "Title Mapping" },
+  { to: "/personalization", label: "Personalization" },
   { to: "/sql", label: "Query Execution" },
   { to: "/database", label: "Database" },
   { to: "/search", label: "Search Titles" },
@@ -15,7 +17,7 @@ export default function Layout() {
         <div className="brand">
           Query<span>Flix</span>
         </div>
-        <div className="brand-sub">Netflix Content Analytics using Advanced SQL</div>
+        <div className="brand-sub">Netflix catalog + MovieLens behaviour, unified in MySQL</div>
         <nav>
           {navItems.map((item) => (
             <NavLink

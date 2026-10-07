@@ -73,7 +73,14 @@ router.get("/:id", async (req, res) => {
     if (!Number.isInteger(id)) {
       return res.status(400).json({ error: "Invalid title id" });
     }
-    const [rows]: any = await pool.query(`SELECT * FROM netflix WHERE show_id = ?`, [id]);
+    // duration comes from the TMDB enrichment view (NULL until runtimes are fetched)
+    const [rows]: any = await pool.query(
+      `SELECT n.*, vr.runtime_minutes, vr.seasons, vr.episodes, vr.episode_runtime_minutes
+       FROM netflix n
+       LEFT JOIN v_title_runtime vr ON vr.title_id = n.show_id
+       WHERE n.show_id = ?`,
+      [id]
+    );
     if (!rows.length) {
       return res.status(404).json({ error: "Title not found" });
     }

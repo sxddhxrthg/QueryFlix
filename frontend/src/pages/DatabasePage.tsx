@@ -86,7 +86,7 @@ export default function DatabasePage() {
                       <code>{c.Type}</code>
                     </td>
                     <td>{c.Null}</td>
-                    <td>{c.Key || "\u2014"}</td>
+                    <td>{c.Key || "—"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -111,7 +111,7 @@ export default function DatabasePage() {
                       {Object.keys(row)
                         .slice(0, 8)
                         .map((k) => (
-                          <td key={k}>{String((row as any)[k] ?? "\u2014").slice(0, 60)}</td>
+                          <td key={k}>{String((row as any)[k] ?? "—").slice(0, 60)}</td>
                         ))}
                     </tr>
                   ))}

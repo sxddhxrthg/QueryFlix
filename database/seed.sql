@@ -25,6 +25,7 @@ USE queryflix;
 
 LOAD DATA LOCAL INFILE 'database/data/netflix_unified.csv'
 INTO TABLE netflix
+CHARACTER SET utf8mb4
 FIELDS TERMINATED BY ',' ENCLOSED BY '"' LINES TERMINATED BY '\r\n'
 (source_id, type, title, director, cast_members, country, date_added, release_year,
  content_rating, duration_raw, genres, language, description, popularity, vote_count,

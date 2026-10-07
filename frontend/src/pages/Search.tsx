@@ -62,7 +62,7 @@ export default function Search() {
           <input className="input" placeholder="Release year" value={filters.year} onChange={update("year")} />
         </div>
         <button className="btn" onClick={runSearch} disabled={loading}>
-          {loading ? "Searching\u2026" : "Search"}
+          {loading ? "Searching…" : "Search"}
         </button>
       </div>
 

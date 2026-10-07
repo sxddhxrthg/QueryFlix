@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
-import type { Stats } from "../services/api";
+import type { Stats, MappingSummary } from "../services/api";
 import { HorizontalBarChart, SplitDonut, TrendLineChart } from "../components/Charts";
 
 export default function Dashboard() {
@@ -9,6 +9,7 @@ export default function Dashboard() {
   const [countries, setCountries] = useState<any[]>([]);
   const [trends, setTrends] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [mapping, setMapping] = useState<MappingSummary | null>(null);
 
   useEffect(() => {
     Promise.all([api.stats(), api.genres(), api.countries(), api.yearlyTrends()])
@@ -19,6 +20,8 @@ export default function Dashboard() {
         setTrends(t);
       })
       .catch((err) => setError(err.message));
+    // unified layer is optional: the dashboard still works if it isn't built yet
+    api.mapping().then(setMapping).catch(() => setMapping(null));
   }, []);
 
   if (error) {
@@ -29,13 +32,13 @@ export default function Dashboard() {
     );
   }
 
-  if (!stats) return <div className="loading-dim">Loading dashboard\u2026</div>;
+  if (!stats) return <div className="loading-dim">Loading dashboard…</div>;
 
   return (
     <div>
       <div className="page-header">
         <h1 className="page-title">QueryFlix</h1>
-        <p className="page-subtitle">Netflix Content Analytics using Advanced SQL</p>
+        <p className="page-subtitle">Netflix catalog intelligence + MovieLens user behaviour, unified in MySQL</p>
       </div>
 
       <div className="stat-grid">
@@ -46,6 +49,17 @@ export default function Dashboard() {
         <StatCard label="Genres" value={stats.genreCount.toLocaleString()} />
         <StatCard label="Avg Rating" value={stats.avgRating} accent />
       </div>
+
+      {mapping && (
+        <div className="stat-grid">
+          <StatCard label="MovieLens Users" value={mapping.totals.users.toLocaleString()} />
+          <StatCard label="MovieLens Movies" value={mapping.totals.movielens_movies.toLocaleString()} />
+          <StatCard label="Ratings" value={mapping.totals.ratings.toLocaleString()} />
+          <StatCard label="Mapped to Netflix" value={mapping.totals.mapped_movies.toLocaleString()} accent />
+          <StatCard label="Ratings on Netflix titles" value={mapping.totals.ratings_on_netflix_titles.toLocaleString()} />
+          <StatCard label="Runtimes (TMDB)" value={Number(mapping.totals.runtimes_loaded ?? 0).toLocaleString()} />
+        </div>
+      )}
 
       <div className="grid-2">
         <div className="card">
